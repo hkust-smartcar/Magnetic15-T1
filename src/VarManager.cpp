@@ -1,5 +1,5 @@
 /*
- * VarManager.h
+ * VarManager.cpp
  *
  * Author: PeterLau
  * Version: 2.7.5
