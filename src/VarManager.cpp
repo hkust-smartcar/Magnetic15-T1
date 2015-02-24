@@ -1,8 +1,11 @@
 /*
- * VarManager.cpp
+ * VarManager.h
  *
- *  Created on: Feb 8, 2015
- *      Author: Peter
+ * Author: PeterLau
+ * Version: 2.7.5
+ *
+ * Copyright (c) 2014-2015 HKUST SmartCar Team
+ * Refer to LICENSE for details
  */
 
 #include "VarManager.h"
