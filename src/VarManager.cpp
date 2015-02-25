@@ -23,6 +23,8 @@ using namespace std;
 
 VarManager *m_pd_instance;
 
+VarManager::TypeId *VarManager::TypeId::m_instance = nullptr;
+
 JyMcuBt106::Config VarManager::get106UartConfig(const uint8_t id)
 {
 	JyMcuBt106::Config config;
@@ -51,6 +53,7 @@ VarManager::VarManager(void)
 {
 	m_pd_instance = this;
 	System::Init();
+	TypeId::Init();
 }
 
 VarManager::~VarManager()
