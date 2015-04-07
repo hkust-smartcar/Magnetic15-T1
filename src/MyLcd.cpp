@@ -79,7 +79,7 @@ Gpo::Config getBuzzerConfig(void)
 
 MyLcd::MyBatteryMeter::MyBatteryMeter(MyConfig &config, MyVar &vars)
 :
-	m_lastVoltage(0.0f),
+	m_lastVoltage(-100.0f),
 	m_updateThreshold(config.MyBatteryMeterUpdateEvery),
 	m_batteryMeter({config.MyBatteryMeterVoltageRatio}),
 	m_batteryMinVoltage(config.MyBatteryMeterVoltageMin),

@@ -34,6 +34,12 @@ public:
 		kGGed = 99
 	};
 
+	enum struct SmartCarPosStatus
+	{
+		kNormal = 0,
+		kGGed
+	};
+
 	// Put All Configuration Here
 
 	// MyMotorPID
@@ -44,17 +50,19 @@ public:
 
 	// MyServoTurningPID
 	float			MyServoTurningRef = 0.0f;
-	float			MyServoTurningKp = 1200.0f;
+	float			MyServoTurningKp = 4500.0f;
 	float			MyServoTurningKi = 0.0f;
 	float			MyServoTurningKd = 0.0f;
 
 	// MyMagSen
 	uint8_t			MyMagSenPairCount = 3;
 	uint8_t			MyMagSenPairId0 = 0;
-	uint8_t			MyMagSenPairId1 = 4;
-	uint8_t			MyMagSenPairId2 = 2;
+	uint8_t			MyMagSenPairId1 = 2;
+	uint8_t			MyMagSenPairId2 = 4;
 
-	float			MyMagSenFilterQ = 0.05f;
+//	float			MyMagSenFilterQ = 0.0015f;
+//	float			MyMagSenFilterR = 0.9f;
+	float			MyMagSenFilterQ = 0.5f;
 	float			MyMagSenFilterR = 0.5f;
 
 	float			MyMagSenDistanceWhenMaxDiff = 10.0f;
@@ -65,6 +73,9 @@ public:
 
 	float			MyMagSenFDStrongValue = 0.8f;
 	float			MyMagSenFDWeakValue = 0.34f;
+
+	float			MyMagSenSDRatio = 0.5f;
+	float			MyMagSenHDRatio = 0.5f;
 
 	// MyLeds
 

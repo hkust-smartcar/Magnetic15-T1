@@ -27,9 +27,9 @@ using namespace std;
 
 //#ifdef LIBSC_USE_SERVO
 
-#define MID_SERVO_DEGREE 			900
+#define MID_SERVO_DEGREE 			9000
 #define MIN_SERVO_TURNING_ANGLE 	0
-#define MAX_SERVO_TURNING_ANGLE 	800
+#define MAX_SERVO_TURNING_ANGLE 	8000
 
 // cross road ->
 //			  |
@@ -49,8 +49,8 @@ public:
 
 	enum struct LastTurningDirection
 	{
-		FORWARD = 0,
-		LEFT,
+		LEFT = -1,
+		FORWARD,
 		RIGHT
 	};
 
@@ -143,13 +143,15 @@ private:
 	enum Functions
 	{
 		turnAccordingToMagSenHD = 0,
-		turnAccordingToMagSenFD
+		turnAccordingToMagSenFD,
+		turnWithMaxAngle
 	};
 
 	typedef struct AngleControlQueue
 	{
 //		int16_t targetAngle;
 		MyConfig::SmartCarTurning stopUntilType;
+		MyConfig::SmartCarPosStatus runWhilePos;
 		bool canBeChanged;
 		Functions functionIndex;
 	};
@@ -172,6 +174,9 @@ private:
 	float 				diffResultHD;
 	float 				sumResultHD;
 
+	float				m_SDRatio;
+	float				m_HDRatio;
+
 	float				m_referenceReading;
 
 	bool				m_isStarted;
@@ -193,7 +198,8 @@ private:
 
 	MyLeds				m_leds;
 	MyConfig::SmartCarTurning 	m_turningState;
-	MyConfig::SmartCarPosition	m_positionState;
+	MyConfig::SmartCarPosition	m_position;
+	MyConfig::SmartCarPosStatus	m_positionStatus;
 
 	PIDhandler 			m_turningController;
 	TrsD05				m_servo;
@@ -211,7 +217,7 @@ private:
 
 	void processControlQueue(void);
 
-	void updateControlInstruction(const /*int16_t targetAngle*/Functions functionIndex, const MyConfig::SmartCarTurning until, const bool allowChange);
+	void updateControlInstruction(const/*int16_t targetAngle*/Functions functionIndex, const MyConfig::SmartCarTurning untilType, const MyConfig::SmartCarPosStatus whilePos, const bool allowChange);
 	void removeControlInstruction(void);
 
 };

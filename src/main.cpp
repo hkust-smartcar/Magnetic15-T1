@@ -68,7 +68,7 @@ void myListener(const vector<Byte> &bytes)
 		globalConfig.MyMotorSpeedControlKd += 0.001f;
 		break;
 	case 'D':
-		globalConfig.MyMotorSpeedControlKd = max(globalConfig.MyMotorSpeedControlKi - 0.001f, 0.0f);
+		globalConfig.MyMotorSpeedControlKd = max(globalConfig.MyMotorSpeedControlKd - 0.001f, 0.0f);
 		break;
 
 	case 'q':
@@ -85,16 +85,16 @@ void myListener(const vector<Byte> &bytes)
 		break;
 
 	case 'h':
-		globalConfig.MyServoTurningKp += 10.0f;
+		globalConfig.MyServoTurningKp += 100.0f;
 		break;
 	case 'H':
-		globalConfig.MyServoTurningKp = max(globalConfig.MyServoTurningKp - 10.0f, 0.0f);
+		globalConfig.MyServoTurningKp = max(globalConfig.MyServoTurningKp - 100.0f, 0.0f);
 		break;
 	case 'j':
-		globalConfig.MyServoTurningKd += 10.0f;
+		globalConfig.MyServoTurningKp += 10.0f;
 		break;
 	case 'J':
-		globalConfig.MyServoTurningKd = max(globalConfig.MyServoTurningKd - 10.0f, 0.0f);
+		globalConfig.MyServoTurningKp = max(globalConfig.MyServoTurningKp - 10.0f, 0.0f);
 		break;
 
 	case 'k':
@@ -127,6 +127,20 @@ void myListener(const vector<Byte> &bytes)
 		break;
 	case '<':
 		globalConfig.MySmartCarPowerMode = MyConfig::SmartCarPowerMode::kLowFrictionMode;
+		break;
+
+	case '[':
+		globalConfig.MyMagSenSDRatio = min(globalConfig.MyMagSenSDRatio + 0.05f, 1.0f);
+		break;
+	case ']':
+		globalConfig.MyMagSenSDRatio = max(globalConfig.MyMagSenSDRatio - 0.05f, 0.0f);
+		break;
+
+	case '{':
+		globalConfig.MyMagSenHDRatio = min(globalConfig.MyMagSenHDRatio + 0.05f, 1.0f);
+		break;
+	case '}':
+		globalConfig.MyMagSenHDRatio = max(globalConfig.MyMagSenHDRatio - 0.05f, 0.0f);
 		break;
 	}
 }
