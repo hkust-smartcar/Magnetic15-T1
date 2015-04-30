@@ -32,6 +32,8 @@ public:
 	MyLcd			m_lcdConsole;
 	MyLoop			m_loop;
 	MyVarManager	m_varMng;
+//	MyMotor			m_motor;
+//	MyServo			m_servo;
 
 private:
 
