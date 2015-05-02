@@ -52,6 +52,9 @@ public:
 
 	explicit MyTypeWriter(const Config &config);
 
+	void Clear(void);
+	void ResetPosition(void);
+
 	bool setActiveRegion(const uint8_t x, const uint8_t y);
 
 	void WriteChar(const char c);
@@ -59,6 +62,7 @@ public:
 	void WriteString(const char *str);
 	void WriteBuffer(const char *buf, const size_t length);
 
+	void SetPosition(const uint8_t column, const uint8_t row);
 	void SetCursorRow(const uint8_t row)
 	{
 		kCursorY = inRange(0, row, kMaxRow - 1);

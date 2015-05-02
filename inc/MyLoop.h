@@ -20,14 +20,14 @@ using namespace std;
 
 #define maxValue(a, b) ((a > b)? a : b)
 
-void DelayMsByTicks(Timer::TimerInt delay);
-
 class MyLoop
 {
 public:
 
 	typedef function<void (Timer::TimerInt)> LoopFunction;
 	typedef Timer::TimerInt TimeInterval;
+
+	static void DelayMsByTicks(Timer::TimerInt delay);
 
 	typedef struct TimerInfo
 	{

@@ -45,7 +45,7 @@ const bool MyLcd::BatteryCharge[4 * 10] = { 1 };
 LcdConsole::Config MyLcd::getLcdConsoleConfig(void)
 {
 	St7735r::Config config;
-	config.is_revert = true;
+	config.is_revert = MyResource::ConfigTable::LcdConfig::IsRevert;
 	config.is_bgr = true;
 	config.fps = MyResource::ConfigTable::LcdConfig::Fps;
 	LcdConsole::Config consoleConfig;
@@ -65,7 +65,7 @@ MyTypeWriter::Config MyLcd::getTypeWriterConfig(void)
 	config.is_text_wrap = true;
 
 	St7735r::Config lcdConfig;
-	lcdConfig.is_revert = true;
+	lcdConfig.is_revert = MyResource::ConfigTable::LcdConfig::IsRevert;
 	lcdConfig.is_bgr = true;
 	lcdConfig.fps = MyResource::ConfigTable::LcdConfig::Fps;
 	LcdConsole::Config consoleConfig;

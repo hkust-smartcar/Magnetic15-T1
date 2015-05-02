@@ -15,6 +15,7 @@
 
 #define MAX(a, b) ((a > b)? a : b)
 #define inRange(n, v, x) ((v < n)? n : ((v > x)? x : v))
+#define ABS(v) ((v > 0)? v : -v)
 
 class MySmartCar;
 
@@ -88,9 +89,10 @@ public:
 
 		public:
 
-			static uint8_t Fps;
+			static uint8_t 	Fps;
 			static uint16_t BgColor;
 			static uint16_t TxtColor;
+			static bool		IsRevert;
 
 			static uint16_t HighPowerColor;
 			static uint16_t NormalPowerColor;

@@ -14,6 +14,8 @@
 #include <libsc/st7735r.h>
 #include <libbase/k60/mcg.h>
 #include <libbase/k60/uart.h>
+#include "MyLoop.h"
+
 using namespace std;
 using namespace libsc;
 using namespace libbase::k60;
@@ -42,28 +44,26 @@ int main(){
 	led_config.is_active_low = 0;
 	Led led(led_config);
 
+	MySmartCar myCar;
 
-	St7735r::Config config9;
-	config9.fps = 60;
-	config9.is_bgr = true;
-	St7735r lcd(config9);
+	uint16_t distance = 0;
 
-	LcdConsole::Config config8;
-	config8.lcd = &lcd;
-	LcdConsole console(config8);
+	myCar.m_varMng.addWatchedVar(&distance);
+//	myCar.m_varMng.addSharedVar(&distance, "a");
+	myCar.m_varMng.Init();
 
-	char *buffer = new char[500] {0};
 	us.Start();
-	int distance = 0;
-	lcd.Clear();
+	Timer::TimerInt st;
+	myCar.m_lcdConsole.Clear();
 	while(true){
 		us.Start();
+		myCar.m_lcdConsole.ResetPosition();
 		distance = us.GetDistance();
-		sprintf(buffer," %d",distance);
-		console.WriteString((char*)buffer);
+		myCar.m_lcdConsole << distance << MyLcd::endl;
 		if(us.GetDistance() == 0){
 			led.Switch();
-			System::DelayS(1);
 		}
+		myCar.m_varMng.sendWatchData();
+		MyLoop::DelayMsByTicks(50);
 	}
 }

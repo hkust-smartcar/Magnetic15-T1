@@ -50,6 +50,7 @@ float MyResource::ConfigTable::BatteryMeterConfig::MinVoltage = 7.6f;
 uint8_t MyResource::ConfigTable::LcdConfig::Fps = 60;
 uint16_t MyResource::ConfigTable::LcdConfig::BgColor = 0;
 uint16_t MyResource::ConfigTable::LcdConfig::TxtColor = -1;
+bool MyResource::ConfigTable::LcdConfig::IsRevert = false;
 uint16_t MyResource::ConfigTable::LcdConfig::HighPowerColor = 0x063F;
 uint16_t MyResource::ConfigTable::LcdConfig::NormalPowerColor = 0x07E0;
 uint16_t MyResource::ConfigTable::LcdConfig::LowPowerColor = 0xF800;

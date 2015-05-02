@@ -26,7 +26,7 @@ MyMotor::MyMotor(void)
 	m_encoder(),
 	m_speed(0),
 	m_enabled(false),
-	m_speedPID(PIDhandler(MyResource::ConfigTable::MotorConfig::Reference, MyResource::ConfigTable::MotorConfig::Kp, MyResource::ConfigTable::MotorConfig::Ki, MyResource::ConfigTable::MotorConfig::Kd))
+	m_speedPID(&MyResource::ConfigTable::MotorConfig::Reference, &MyResource::ConfigTable::MotorConfig::Kp, &MyResource::ConfigTable::MotorConfig::Ki, &MyResource::ConfigTable::MotorConfig::Kd, -MAX_MOTOR_POWER, MAX_MOTOR_POWER)
 {
 	if (!m_instance)
 		m_instance = new MyMotor;
@@ -43,7 +43,6 @@ void MyMotor::setSpeed(int16_t speed)
 			SetClockwise(false);
 
 		m_speed = inRange(-MAX_MOTOR_POWER, speed, MAX_MOTOR_POWER);
-		SetPower(abs(m_speed));
 	}
 	else
 		SetPower(0);
@@ -51,7 +50,7 @@ void MyMotor::setSpeed(int16_t speed)
 
 void MyMotor::updateSpeed(void)
 {
-	SetPower(m_speedPID.updatePID(m_encoder.GetCount()));
+	//SetPower(m_speedPID.updatePID(m_encoder.GetCount()));
 }
 
 void MyMotor::setEnabled(const bool enabled)
@@ -74,5 +73,5 @@ void MyMotor::reset(void)
 
 void MyMotor::speedControlRoutine(void)
 {
-	updateSpeed();
+	m_instance->updateSpeed();
 }

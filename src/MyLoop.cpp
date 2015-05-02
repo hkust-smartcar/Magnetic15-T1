@@ -14,11 +14,11 @@
 
 using namespace std;
 
-void DelayMsByTicks(Timer::TimerInt delay)
+void MyLoop::DelayMsByTicks(Timer::TimerInt delay)
 {
 	Timer::TimerInt startTime = System::Time();
 
-	while (Timer::TimeDiff(startTime, System::Time()) < delay);
+	while (System::Time() - startTime < delay);
 }
 
 MyLoop::MyLoop(void)

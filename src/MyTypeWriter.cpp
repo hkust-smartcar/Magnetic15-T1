@@ -15,6 +15,7 @@
 #include <memory>
 #include <vector>
 
+
 #include <libbase/log.h>
 #include <libbase/misc_types.h>
 
@@ -38,6 +39,17 @@ MyTypeWriter::MyTypeWriter(const Config &config)
 	m_lcd->Clear(m_bg_color);
 }
 
+void MyTypeWriter::Clear(void)
+{
+	m_lcd->Clear();
+	kCursorX = 0; kCursorY = 0;
+}
+
+void MyTypeWriter::ResetPosition(void)
+{
+	kCursorX = 0; kCursorY = 0;
+}
+
 bool MyTypeWriter::setActiveRegion(const uint8_t cursorX, const uint8_t cursorY)
 {
 	if (checkInRange(0, cursorX, kMaxColumn) && checkInRange(0, cursorY, kMaxRow))
@@ -52,6 +64,9 @@ void MyTypeWriter::WriteChar(const char c)
 {
 	if (c == '\n' || (kCursorX == kMaxColumn && m_is_text_wrap))
 	{
+		if (m_is_clear_line)
+			for (int8_t i = 0; i < kMaxColumn - kCursorX; i++)
+				WriteChar(CharTable_Size5[0]);
 		kCursorY++;
 		kCursorX = 0;
 		return ;

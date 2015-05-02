@@ -23,7 +23,7 @@
 using namespace libsc;
 using namespace libbase::k60;
 
-class MyLcd : private MyTypeWriter
+class MyLcd : public MyTypeWriter
 {
 
 public:
