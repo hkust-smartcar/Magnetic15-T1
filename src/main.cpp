@@ -11,6 +11,15 @@
 #include <libbase/k60/gpio.h>
 #include <libsc/system.h>
 #include "MySmartCar.h"
+#include <libbase/k60/mcg.h>
+#include <libsc/led.h>
+#include <libsc/us_100.h>
+#include <libsc/system.h>
+#include <libsc/st7735r.h>
+#include <libsc/lcd_console.h>
+
+#include "ultrasonic.h"
+
 
 namespace libbase
 {
@@ -32,58 +41,82 @@ using namespace libsc;
 using namespace libbase::k60;
 
 MySmartCar myCar;
+//Us100 us({0});
+Led led({0});
+volatile uint32_t current_time;
+volatile uint32_t PulseWidth;
 
-void myListener(const std::vector<Byte>& bytes)
+
+//
+//Gpi::Config GetTestConfig(Gpi::OnGpiEventListener isr)
+//
+//	Gpi::Config product;
+//	product.pin = Pin::Name::kPtc13;
+//	product.interrupt = Pin::Config::Interrupt::kRising;
+//	product.isr = isr;
+//	return product;
+//}
+//
+//
+//void Test(Gpi *gpi)
+//{
+//    led.Switch();
+//    System::DelayMs(300);
+//
+//
+//}
+
+void OnUSEdge(Gpi *gpi)
 {
-	switch (bytes[0])
-	{
-	case 'a':
-		MyResource::smartCar().m_motor.setEnabled(true);
-		break;
+    if (gpi->Get()){
+    	current_time=System::Time();
 
-	case 's':
-		MyResource::smartCar().m_motor.setEnabled(false);
-		break;
-	}
+    }
+    else {
+
+    	PulseWidth=System::Time()-current_time;
+    }
 }
 
 int main(void)
 {
+	uint32_t distance;
 	System::Init();
 
-	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[0].getOutputValue(), "SD_Output");
-	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[1].getOutputValue(), "FD_Output");
-	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[2].getOutputValue(), "HD_Output");
-//	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_lastAngle, "IntegratedOutput");
-	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_lastDegree, "Angle");
+//	St7735r::Config lcdConfig;
+//	lcdConfig.fps = 60;
+//	lcdConfig.is_bgr = true;
+//	lcdConfig.is_revert = false;
 
-//	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[0].getFilteredValue()[0], "SD_FilteredValueL");
-//	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[0].getFilteredValue()[1], "SD_FilteredValueR");
-//	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[1].getFilteredValue()[0], "FD_FilteredValueL");
-//	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[1].getFilteredValue()[1], "FD_FilteredValueR");
-//	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[2].getFilteredValue()[0], "HD_FilteredValueL");
-//	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[2].getFilteredValue()[1], "HD_FilteredValueR");
+//	LcdConsole::Config consoleConfig;
+//	consoleConfig.bg_color = 0;
+//	consoleConfig.lcd = new St7735r(lcdConfig);
+//	consoleConfig.text_color = -1;
 
-//	myCar.m_varMng.addWatchedVar(myCar.m_motor.m_encoder.getEncoderCountPointer(), "EncoderCount");
-//	myCar.m_varMng.addWatchedVar(myCar.m_motor.getSpeed());
-//	myCar.m_varMng.addWatchedVar(&MyResource::ConfigTable::MotorConfig::Reference, "EncoderTaget");
-//	myCar.m_varMng.addWatchedVar(myCar.m_motor.m_speedPID.getLastError());
 
-	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::ServoConfig::Kp, "Servo_Kp");
-	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::ServoConfig::Ki, "Servo_Ki");
-	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::ServoConfig::Kd, "Servo_Kd");
-//	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::MotorConfig::Kp, "Motor_Kp");
-//	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::MotorConfig::Ki, "Motor_Ki");
-//	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::MotorConfig::Kd, "Motor_Kd");
-	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::ServoConfig::WeightSD, "Weight_SD");
-	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::ServoConfig::WeightFD, "Weight_FD");
-	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::ServoConfig::WeightHD, "Weight_HD");
-	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::MotorConfig::Reference, "Motor_Ref");
-//	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::MagSenConfig::Kq, "Kq");
-//	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::MagSenConfig::Kr, "Kr");
+//	LcdConsole console(consoleConfig);
 
-	myCar.m_varMng.Init(&myListener);
 
-	myCar.m_loop.start();
+	//us.Start();
+   //Gpi(GetTestConfig(std::bind(&Test,placeholders::_1)));
+	Gpi us(GetUSConfig());
+	while (true)
+	{
+		//myCar.m_lcdConsole.setRow(0) << us.GetDistance() << "   ";
+//		console.WriteBuffer(buf, n);
+		distance=PulseWidth*34;
+		myCar.m_lcdConsole.setRow(0)<<distance<<"  "<<'\n';
+		System::DelayMs(500);
+
+
+
+
+
+	}
+
+	//us.Stop();
+
+//	myCar.m_loop.start();
+	return 0;
 
 }
