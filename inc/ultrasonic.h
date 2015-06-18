@@ -12,6 +12,5 @@
 
 using namespace libbase::k60;
 
-Gpi::Config GetUSConfig(void);
 
 #endif /* INC_ULTRASONIC_H_ */
