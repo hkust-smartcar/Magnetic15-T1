@@ -69,8 +69,7 @@ YuanYang::YuanYang(void)
 
 uint32_t YuanYang::distance(){
 	uint32_t result;
-	result = duration/50 * 340000/1000000; //distance is in mm
-	//result = duration/ClockUtils::GetBusTickPerUs()*34000/1000000;
+	result = (float)duration/ClockUtils::GetBusTickPerUs()*(340000.0f/1000000);
 	return result;
 }
 
