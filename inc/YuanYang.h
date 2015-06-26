@@ -5,12 +5,12 @@
  *      Author: chendi
  */
 
-#ifndef INC_YUANYANG_H_
-#define INC_YUANYANG_H_
+#pragma once
 
+#include <libbase/helper.h>
 #include <cstdint>
-#include <libbase/k60/gpio.h>
-#include <libbase/k60/pit.h>
+#include LIBBASE_H(gpio)
+#include LIBBASE_H(pit)
 
 using namespace libbase::k60;
 
@@ -20,21 +20,24 @@ using namespace libbase::k60;
  */
 class YuanYang{
 public:
-	YuanYang(void);
+	struct Config
+	{
+		uint8_t id;
+	};
+
+	explicit YuanYang(const Config &config);
+	~YuanYang();
+
 	bool is_valid(void);
 	uint32_t distance(void);             //distance is in mm
+
 private:
+	Pit pit;
 	Gpi DO;
 	Gpi State;
-	Pit pit;
 	void OnUSEdge(Gpi* gpi);
-	Gpi::Config GetUSConfig(Gpi::OnGpiEventListener isr);
+	Gpi::Config GetDoConfig(Gpi::OnGpiEventListener isr);
 	Gpi::Config GetStateConfig(void);
 	Pit::Config GetPitConfig(void);
 	volatile uint32_t duration;
 };
-
-
-
-
-#endif /* INC_YUANYANG_H_ */

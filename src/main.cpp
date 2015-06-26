@@ -44,7 +44,7 @@ using namespace libbase::k60;
 MySmartCar myCar;
 //Us100 us({0});
 Led led({0});
-YuanYang us;
+YuanYang us({0});
 //
 //Gpi::Config GetTestConfig(Gpi::OnGpiEventListener isr)
 //

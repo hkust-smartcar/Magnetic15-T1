@@ -13,6 +13,7 @@
 #include "MyEncoder.h"
 #include "MyLoop.h"
 #include "MyPID.h"
+#include "MyUltrasonic.h"
 
 #define MIN_MOTOR_POWER	0
 #define MAX_MOTOR_POWER	500
@@ -24,7 +25,8 @@ class MyMotor : private DirMotor
 
 public:
 
-	MyEncoder	m_encoder;
+	MyEncoder		   m_encoder;
+	MyUltrasonic	   m_us;
 
 	MyMotor(void);
 
