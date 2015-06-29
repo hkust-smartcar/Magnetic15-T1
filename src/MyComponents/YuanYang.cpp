@@ -22,22 +22,19 @@
 
 using namespace LIBBASE_NS;
 
-namespace libsc
-{
-
-#if LIBSC_USE_ULTRASONIC
+#if LIBSC_USE_YUANYANG
 
 namespace
 {
 
-#if LIBSC_USE_ULTRASONIC == 1
+#if LIBSC_USE_YUANYANG == 1
 inline Pin::Name GetDoPin(const uint8_t id)
 {
 	if (id != 0)
 	{
 		assert(false);
 	}
-	return LIBSC_ULTRASONIC0_DO;
+	return LIBSC_YUANYANG_DO;
 }
 
 inline Pin::Name GetStatePin(const uint8_t id)
@@ -46,7 +43,7 @@ inline Pin::Name GetStatePin(const uint8_t id)
 	{
 		assert(false);
 	}
-	return LIBSC_ULTRASONIC0_STATE;
+	return LIBSC_YUANYANG_STATE;
 }
 
 #else
@@ -82,7 +79,9 @@ inline Pin::Name GetStatePin(const uint8_t id)
 	}
 }
 
-#endif //LIBSC_USE_ULTRASONIC
+#endif //LIBSC_USE_YUANYANG
+
+}
 
 Pit::Config YuanYang::GetPitConfig()
 {
@@ -104,15 +103,15 @@ Gpi::Config config;
 
 Gpi::Config YuanYang::GetDoConfig(Gpi::OnGpiEventListener isr){
 	Gpi::Config config;
-	config.pin = GetDoPin(id);
+	config.pin = GetDoPin(0);
 	config.interrupt = Pin::Config::Interrupt::kBoth;
 	config.isr = isr;
 	return config;
 }
 
-Gpi::Config YuanYang::GetStateConfig(const uint8_t id){
+Gpi::Config YuanYang::GetStateConfig(){
 	Gpi::Config config;
-	config.pin = GetStatePin(id);
+	config.pin = GetStatePin(0);
 	config.interrupt = Pin::Config::Interrupt::kDisable;
 	return config;
 }
@@ -130,12 +129,11 @@ void YuanYang::OnUSEdge(Gpi *gpi)
     }
 }
 
-
-YuanYang::YuanYang(const Config &config)
+YuanYang::YuanYang(void)
 :
 	pit(GetPitConfig()),
 	DO(nullptr), //DO(GetDoConfig(config, (std::bind(&YuanYang::OnUSEdge, this,std::placeholders::_1)))),
-	State(GetStateConfig(config.id))
+	State(GetStateConfig())
 {
 	DO=Gpi(GetDoConfig(std::bind(&YuanYang::OnUSEdge, this,std::placeholders::_1)));
 	System::Init();
@@ -154,6 +152,4 @@ bool YuanYang::is_valid(){
 	return State.Get();
 }
 
-#endif //LIBSC_USE_ULTRASONIC
-
-}
+#endif //LIBSC_USE_YUANYANG

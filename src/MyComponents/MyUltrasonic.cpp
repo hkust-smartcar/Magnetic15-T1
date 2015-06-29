@@ -15,15 +15,9 @@ using namespace libbase::k60;
 
 MyUltrasonic *MyUltrasonic::m_instance = nullptr;
 
-YuanYang::Config getUSConfig(uint8_t id){
-	YuanYang::Config config;
-	config.id = id;
-	return config;
-}
-
 MyUltrasonic::MyUltrasonic(void)
 :
-		YuanYang(getUSConfig(0)),
+		YuanYang(),
 		m_brake(false)
 {}
 

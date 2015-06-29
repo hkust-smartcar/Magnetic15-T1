@@ -41,22 +41,12 @@ MyMotor::MyMotor(void)
 
 void MyMotor::setSpeed(int16_t speed)
 {
-	if (m_enabled && !m_us.isBrake())
+	if (m_enabled)
 	{
 		if (speed > 0)
-			SetClockwise(true);
+			SetClockwise(!m_us.isBrake());
 		else
-			SetClockwise(false);
-
-		m_speed = inRange(-MAX_MOTOR_POWER, speed, MAX_MOTOR_POWER);
-		SetPower(ABS(m_speed));
-	}
-	else if (m_enabled && m_us.isBrake())
-	{
-		if (speed > 0)
-			SetClockwise(false);
-		else
-			SetClockwise(true);
+			SetClockwise(m_us.isBrake());
 
 		m_speed = inRange(-MAX_MOTOR_POWER, speed, MAX_MOTOR_POWER);
 		SetPower(ABS(m_speed));

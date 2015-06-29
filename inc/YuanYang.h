@@ -25,7 +25,7 @@ public:
 		uint8_t id;
 	};
 
-	explicit YuanYang(const Config &config);
+	explicit YuanYang();
 	~YuanYang();
 
 	bool is_valid(void);

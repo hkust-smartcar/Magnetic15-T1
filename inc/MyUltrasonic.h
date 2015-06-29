@@ -9,7 +9,7 @@
 
 #include "YuanYang.h"
 
-#define MIN_DISTANCE 50 //in mm
+#define MIN_DISTANCE 200 //in mm
 
 class MyUltrasonic : private YuanYang{
 
