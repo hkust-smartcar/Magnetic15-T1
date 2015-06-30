@@ -21,6 +21,7 @@
 #include "YuanYang.h"
 
 using namespace LIBBASE_NS;
+using namespace libsc;
 
 #if LIBSC_USE_YUANYANG
 
@@ -46,39 +47,6 @@ inline Pin::Name GetStatePin(const uint8_t id)
 	return LIBSC_YUANYANG_STATE;
 }
 
-#else
-inline Pin::Name GetDoPin(const uint8_t id)
-{
-	switch (id)
-	{
-	default:
-		assert(false);
-		// no break
-
-	case 0:
-		return LIBSC_ULTRASONIC0_DO;
-
-	case 1:
-		return LIBSC_ULTRASONIC1_DO;
-	}
-}
-
-inline Pin::Name GetStatePin(const uint8_t id)
-{
-	switch (id)
-	{
-	default:
-		assert(false);
-		// no break
-
-	case 0:
-		return LIBSC_ULTRASONIC0_STATE;
-
-	case 1:
-		return LIBSC_ULTRASONIC1_STATE;
-	}
-}
-
 #endif //LIBSC_USE_YUANYANG
 
 }
@@ -94,7 +62,7 @@ Pit::Config YuanYang::GetPitConfig()
 
 /*inline Gpi::Config GetDoConfig(const YuanYang::Config &config, Gpi::OnGpiEventListener isr)
 {
-Gpi::Config config;
+	Gpi::Config config;
 	config.pin = GetDoPin(id);
 	config.interrupt = Pin::Config::Interrupt::kBoth;
 	config.isr = isr;
