@@ -72,12 +72,14 @@ MySmartCar::MySmartCar(void)
 			   MySwitch(getSwitchConfig(4)),
 			   MySwitch(getSwitchConfig(5)),
 			   MySwitch(getSwitchConfig(6)),
-			   MySwitch(getSwitchConfig(7)) })
+			   MySwitch(getSwitchConfig(7)) }),
+	m_yuanYang()
 //	m_menu(m_lcdConsole)
 {
 	m_varMng.SetOnChangedListener(&m_flash.writeConfig);
 	switchInit();
-	m_loop.addFunctionToLoop(&m_motor.updateSpeed, MyResource::ConfigTable::MotorConfig::UpdateFreq);
+//	m_loop.addFunctionToLoop(&m_motor.updateSpeed, MyResource::ConfigTable::MotorConfig::UpdateFreq);
+	m_loop.addFunctionToLoop(&m_yuanYang.task, MyResource::ConfigTable::MotorConfig::UpdateFreq);
 	m_loop.addFunctionToLoop(&m_servo.updateAngle, MyResource::ConfigTable::ServoConfig::UpdateFreq);
 	m_loop.addFunctionToLoop(&showValue, MyResource::ConfigTable::VarMngConfig::UpdateFreq);
 	m_loop.addFunctionToLoop(&m_lcdConsole.onDraw, MyResource::ConfigTable::LcdConfig::UpdateFreq);
@@ -86,7 +88,7 @@ MySmartCar::MySmartCar(void)
 void MySmartCar::switchInit(void)
 {
 	m_mode = (Mode)((uint8_t)(!m_switch[7].Get()) + ((uint8_t)m_switch[7].Get() * (uint8_t)(!m_switch[5].Get())));
-	m_servo.setEnabled(!m_switch[4].Get());
+	m_servo.setEnabled(!m_switch[2].Get());
 	m_servo.m_allow90DegreeTurning = m_switch[3].Get();
 	m_buzzer.setEnabled(m_switch[3].Get());
 }
@@ -114,7 +116,7 @@ void MySmartCar::switchOnTriggered(Gpi *target)
 			MyResource::smartCar().m_mode = Mode::RawDebug;
 		break;
 
-	case LIBSC_SWITCH4:
+	case LIBSC_SWITCH2:
 		MyResource::smartCar().m_servo.setEnabled(!target->Get());
 		break;
 

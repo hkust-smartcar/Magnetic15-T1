@@ -14,7 +14,7 @@
 #include "MyEncoder.h"
 #include "MyLoop.h"
 
-#define MIN_MOTOR_POWER	0
+#define MIN_MOTOR_POWER	-200
 #define MAX_MOTOR_POWER	675
 
 #define WHEEL_RADIUS					0.17592918860f

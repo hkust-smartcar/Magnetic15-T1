@@ -37,8 +37,8 @@ MyMotor::MyMotor(void)
 			   MyPid::Motor,
 			   -MAX_MOTOR_POWER,
 			   MAX_MOTOR_POWER,
-			   -1.0f,
-			   1.0f),
+			   0.0f,
+			   MyResource::ConfigTable::MotorConfig::Reference * 2),
 	m_startTime(0),
 	m_timePassed(0),
 	m_power(0),
@@ -54,12 +54,14 @@ void MyMotor::setSpeed(int16_t speed)
 {
 	if (m_enabled)
 	{
+//		speed=100;
 		if (speed > 0)
 			SetClockwise(true);
 		else
 			SetClockwise(false);
 
 		m_power = inRange(-MAX_MOTOR_POWER, speed, MAX_MOTOR_POWER);
+//		m_power = inRange(-MAX_MOTOR_POWER, 100, MAX_MOTOR_POWER);
 		SetPower(ABS(m_power));
 	}
 	else
@@ -104,8 +106,9 @@ void MyMotor::setEnabled(const bool enabled)
 		reset();
 		m_encoder.reset();
 		m_speedPid.reset();
-		if (m_enabled = enabled)
-			m_startTime = System::Time();
+//		if (m_enabled = enabled)
+//			m_startTime = System::Time() - MyResource::ConfigTable::MotorConfig::UpdateFreq;
+		m_enabled = enabled;
 	}
 }
 

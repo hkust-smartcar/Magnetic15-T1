@@ -65,10 +65,11 @@ public:
 //			static float TurningWeightFD;
 //			static float TurningWeightHD;
 
-			static float CrossRoadThresholdFdValue;
-			static float TurningThresholdHdValue;
+			static float Turning90DegreeThresholdSdAvg;
+			static float Turning90DegreeThresholdSd;
 			static float SdNoSignalThreshold;
-			static float Turning90DegreeThresholdSdOutput;
+			static float FdNoSignalThreshold;
+			static float Turning90DegreeThresholdFd;
 			static float Turning90DegreeThresholdFdAvg;
 
 
@@ -101,6 +102,8 @@ public:
 
 		};
 
+		struct YuanYangConfig { public: static uint16_t UpdateFreq; };
+
 		struct BatteryMeterConfig
 		{
 
@@ -110,6 +113,15 @@ public:
 			static float MaxVoltage;
 			static float Ratio;
 			static uint16_t UpdateFreq;
+
+		};
+
+		struct EncoderConfig
+		{
+
+		public:
+
+			static float UpdateFreq;
 
 		};
 

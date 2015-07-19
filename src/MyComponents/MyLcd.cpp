@@ -115,8 +115,13 @@ void MyLcd::onDraw(const uint32_t &timeDelay)
 			else
 			{
 				MyResource::smartCar().m_lcdConsole << "Output: "<< MyResource::smartCar().m_servo.m_lastError << MyLcd::endl
-												    << "Angle: " << (int16_t)(MyResource::smartCar().m_servo.m_lastDegree - MID_SERVO_DEGREE) << "   " << MyLcd::endl
-												    << "NonLinear: " << (uint8_t)MyResource::smartCar().m_servo.m_isPidNonLinear << MyLcd::endl;
+													//<< "Speed: "<< *MyResource::smartCar().m_motor.getPower()<<MyLcd::endl
+													<< "CarDis: "<< MyResource::smartCar().m_yuanYang.dist<< "     " <<MyLcd::endl
+													<< "Refer: "<< MyResource::ConfigTable::MotorConfig::Reference<<MyLcd::endl
+													<< "LastDis: "<< MyResource::smartCar().m_yuanYang.lastdist<< "     " <<MyLcd::endl
+//												    << "Angle: " << (int16_t)(MyResource::smartCar().m_servo.m_lastDegree - MID_SERVO_DEGREE) << "   " << MyLcd::endl
+												    << "Enc: " << MyResource::smartCar().m_motor.m_encoder.getEncoderReading() << "   " << MyLcd::endl;
+													//<< "distance: " << MyResource::smartCar().m_yuanYang.distance() << MyLcd::endl;
 			}
 		}
 		else if (timeDelay == 99999)

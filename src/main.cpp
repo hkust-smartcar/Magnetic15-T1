@@ -137,6 +137,7 @@ void OnPress(const uint8_t id)
 
 	case 0:
 //		myCar.m_batteryMeter.checkBattery(0);
+//		DelayMsByTicks(2000);
 		MyResource::smartCar().m_motor.setEnabled(!MyResource::smartCar().m_motor.isEnabled());
 		break;
 
@@ -153,12 +154,12 @@ int main(void)
 {
 	System::Init();
 
-//	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[0].getOutputValue(), "SD_Output");
-//	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[1].getOutputValue(), "FD_Output");
-//	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[2].getOutputValue(), "HD_Output");
-//	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[0].getFilteredValueAvg(), "SD_Avg");
-//	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[1].getFilteredValueAvg(), "FD_Avg");
-//	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[2].getFilteredValueAvg(), "HD_Avg");
+	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[0].getOutputValue(), "SD_Output");
+	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[1].getOutputValue(), "FD_Output");
+	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[2].getOutputValue(), "HD_Output");
+	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[0].getFilteredValueAvg(), "SD_Avg");
+	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[1].getFilteredValueAvg(), "FD_Avg");
+	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[2].getFilteredValueAvg(), "HD_Avg");
 //	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_finalAngle, "Angle");
 
 //	myCar.m_varMng.addWatchedVar((uint8_t *)&MyResource::smartCar().m_servo.m_90DegreeTurningNeed, "90DegreeMode");
@@ -166,7 +167,8 @@ int main(void)
 
 //	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_lastError, "IntegratedOutput");
 //	myCar.m_varMng.addWatchedVar(myCar.m_servo.m_servoPid[MyServo::Normal].getLastError(), "LastError");
-	myCar.m_varMng.addWatchedVar(myCar.m_servo.m_servoPid[MyServo::PidType::Turning].getLastError(), "LastError");
+//	myCar.m_varMng.addWatchedVar(myCar.m_servo.m_servoPid[MyServo::PidType::Turning].getLastError(), "LastError");
+//	myCar.m_varMng.addWatchedVar(&myCar.m_yuanYang.dist, "LastError");
 
 //	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[0].getFilteredValue()[0], "SD_FilteredValueL");
 //	myCar.m_varMng.addWatchedVar(&myCar.m_servo.m_MagSen[0].getFilteredValue()[1], "SD_FilteredValueR");
@@ -181,6 +183,7 @@ int main(void)
 //	myCar.m_varMng.addWatchedVar(&MyResource::smartCar().m_motor.m_curReference, "EncoderTaget");
 //	myCar.m_varMng.addWatchedVar((uint8_t *)&MyResource::smartCar().m_servo.m_lastTurningDirection, "LastDirection");
 //	myCar.m_varMng.addWatchedVar(myCar.m_motor.m_speedPid.getLastError(), "Error");
+//	myCar.m_varMng.addWatchedVar(&myCar.m_motor.m_speedPid.m_output, "Error");
 
 	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::MotorConfig::Reference, "Motor_Ref");
 	myCar.m_varMng.addSharedVar(&MyResource::ConfigTable::ServoConfig::NormalKp, "Servo_nKp");

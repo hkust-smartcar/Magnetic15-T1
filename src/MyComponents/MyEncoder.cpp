@@ -14,13 +14,15 @@
 MyEncoder::MyEncoder(void)
 :
 	AbEncoder({ 0 }),
-	m_lastCount(0)
+	m_lastCount(0),
+	m_lastTime(0)
 {}
 
 int32_t MyEncoder::getEncoderReading(void)
 {
 	Update();
 	m_lastCount = GetCount();
+	m_lastTime = System::Time();
 	return m_lastCount;
 }
 

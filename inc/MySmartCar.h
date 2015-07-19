@@ -20,6 +20,7 @@
 #include "MyBatteryMeter.h"
 #include "MyMenu.h"
 #include "MyFlash.h"
+#include "MyYuanYang.h"
 
 #define IS_FRONT 1
 
@@ -53,6 +54,7 @@ public:
 	MyBuzzer		m_buzzer;
 	MyBatteryMeter	m_batteryMeter;
 	array<MySwitch, 8> m_switch;
+	MyYuanYang		m_yuanYang;
 //	MyMenu			m_menu;
 
 

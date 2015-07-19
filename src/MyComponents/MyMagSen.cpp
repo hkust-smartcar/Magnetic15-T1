@@ -47,12 +47,12 @@ inline Pin::Name getPin(const uint8_t id)
 
 #if LIBSC_USE_MAGSEN > 4
 	case 4:
-		return LIBSC_MAGSEN1;
+		return LIBSC_MAGSEN0;
 #endif
 
 #if LIBSC_USE_MAGSEN > 5
 	case 5:
-		return LIBSC_MAGSEN0;
+		return LIBSC_MAGSEN1;
 #endif
 	}
 }
