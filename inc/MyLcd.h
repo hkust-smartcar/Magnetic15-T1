@@ -1,85 +1,44 @@
 /*
  * MyLcd.h
  *
- *  Created on: Mar 16, 2015
+ *  Created on: Apr 25, 2015
  *      Author: Peter
  */
 
 #pragma once
 
+#include <libbase/helper.h>
 #include <libsc/battery_meter.h>
 #include <libsc/lcd.h>
 #include <libsc/lcd_console.h>
-#include <libsc/simple_buzzer.h>
-#include <libbase/k60/gpio.h>
+#include "MyResource.h"
+#include "MyTypeWriter.h"
 
-#include "MyConfig.h"
-#include "MyVar.h"
-#include "MyLoop.h"
+#define MAX_ASCII_INDEX 126
+#define MIN_ASCII_INDEX 32
+
+#define inRange(n, v, x) ((v < n)? n : ((v > x)? x : v))
+#define length(v) (sizeof(v) / sizeof(v[0]))
 
 using namespace libsc;
 using namespace libbase::k60;
 
-class MyLcd
+class MyLcd : private MyTypeWriter
 {
 
 public:
 
-	class MyBatteryMeter
-	{
-
-	public:
-
-		MyBatteryMeter(MyConfig &config, MyVar &vars);
-
-		float isUpdateVoltageNeeded(void);
-		float getRealVoltage(void);
-
-		uint16_t getColor(void);
-
-	private:
-
-		float getVolatagePercentage(void);
-
-		BatteryMeter			m_batteryMeter;
-		float					m_lastVoltage;
-		float					m_updateThreshold;
-
-		float					m_batteryMinVoltage;
-		float					m_batteryMaxVoltage;
-		float					m_batteryReferenceRange;
-
-		float					m_batteryLowColor;
-		float					m_batteryNormalColor;
-		float					m_batteryHighColor;
-
-	};
-
-	class MyBuzzer
-	{
-
-	public:
-
-		explicit MyBuzzer(void);
-
-		void setEnabled(bool enabled);
-
-	private:
-
-		Gpio					m_mybuzzer;
-
-	};
-
 	const static char endl = '\n';
 
-	explicit MyLcd(MyConfig &config, MyVar &vars, MyLoop &loop);
+	explicit MyLcd(void);
 
-	static void onDraw(void);
+	static void onDraw(const uint32_t &timeDelay);
 
-	static MyLcd *getMyLcdInstance(void);
-	static LcdConsole *getLcdConsoleInstance(void);
+	void setEnabled(const bool enabled);
+	bool isEnabled(void);
 
 	MyLcd &setRow(const uint8_t &row);
+	MyLcd &operator<<(const bool b);
 	MyLcd &operator<<(const char c);
 	MyLcd &operator<<(const char *str);
 	MyLcd &operator<<(const float &f);
@@ -90,21 +49,20 @@ public:
 	MyLcd &operator<<(const int16_t &s);
 	MyLcd &operator<<(const int32_t &i);
 
+	St7735r					*m_lcd;
+
 private:
 
-	LcdConsole::Config getConsoleConfig(const MyConfig &config);
-	LcdTypewriter::Config getWriterConfig(const MyConfig &config);
+	Timer::TimerInt			m_lastUpdateTime;
 
-	St7735r						m_lcd;
-	MyBuzzer					m_buzzer;
-	LcdConsole					m_console;
-	LcdTypewriter				m_writer;
-	MyBatteryMeter				m_batteryMeter;
+	LcdConsole::Config getLcdConsoleConfig(void);
+	MyTypeWriter::Config getTypeWriterConfig(void);
 
-	uint16_t					m_backgroundColor;
-	uint16_t					m_textColor;
+	static const bool BatteryCharge[];
+	static const uint8_t BatteryOutlook[];
 
-	static const bool			BatteryOutlook[];
-	static const bool			BatteryCharge[];
+	bool					m_enabled;
+
+	static MyLcd			*m_instance;
 
 };
